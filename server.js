@@ -5,9 +5,9 @@ const app = express();
 const port = 3000; // or the port you are using
 
 const oauth2Client = new google.auth.OAuth2(
-  '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com', // Replace with your actual Client ID
-  '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', // Replace with your actual Client Secret
-  'http://localhost:3000/oauth2callback' // Replace with your actual redirect URI
+  process.env.CLIENT_ID, 
+  process.env.CLIENT_SECRET, 
+  process.env.REDIRECT_URI
 );
 
 // Set the scope you need for Gmail
