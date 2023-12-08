@@ -34,6 +34,7 @@ function loadGapiAndInit() {
                 client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com', // Replace with your actual Client ID
                 cookiepolicy: 'single_host_origin',
             }).then(renderButton, function(error) {
+                // Log the full error object to the console
                 console.error('Error initializing Google Auth:', error);
             });
         });
@@ -45,4 +46,6 @@ function loadGapiAndInit() {
     }
 }
 
+// Start the process
 loadGapiAndInit();
+
