@@ -1,9 +1,22 @@
 let gapiLoadAttempts = 0;
 
+window.onload = function() {
+    google.accounts.id.initialize({
+        client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com',
+        callback: onSignIn
+    });
+    google.accounts.id.renderButton(
+        document.getElementById('signin-button'),
+        { theme: 'outline', size: 'large' }  // Customization attributes
+    );
+    google.accounts.id.prompt(); // This will prompt the user to select an account
+};
+
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('Full Name: ' + profile.getName());
     console.log('Email: ' + profile.getEmail());
+    console.log('User signed in:', response);
 
     // Display user information or a welcome message
     var userInfoDiv = document.getElementById('user-info');
