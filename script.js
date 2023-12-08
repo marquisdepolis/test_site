@@ -14,6 +14,11 @@ function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('Full Name: ' + profile.getName());
     console.log('Email: ' + profile.getEmail());
+
+    // Display user information or a welcome message
+    var userInfoDiv = document.getElementById('user-info');
+    userInfoDiv.innerHTML = 'Hello, ' + profile.getName() + '! You are now signed in.';
+    userInfoDiv.style.display = 'block';
 }
 
 function onFailure(error) {
