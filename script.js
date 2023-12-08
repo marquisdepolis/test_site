@@ -1,3 +1,5 @@
+let gapiLoadAttempts = 0;
+
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('Full Name: ' + profile.getName());
@@ -25,26 +27,11 @@ function renderButton() {
     });
 }
 
-function startApp() {
-    gapi.load('auth2', function(){
-        gapi.auth2.init({
-            client_id: 'YOUR_CLIENT_ID',
-            // ... other configurations
-        }).then(function() {
-            renderButton();
-        }, function(error) {
-            console.error('Error initializing Google Auth:', error);
-        });
-    });
-}
-
-let gapiLoadAttempts = 0;
-
 function loadGapiAndInit() {
     if (window.gapi) {
         gapi.load('auth2', function() {
             gapi.auth2.init({
-                client_id: 'YOUR_CLIENT_ID',
+                client_id: 'YOUR_CLIENT_ID', // Replace with your actual Client ID
                 cookiepolicy: 'single_host_origin',
             }).then(renderButton, function(error) {
                 console.error('Error initializing Google Auth:', error);
@@ -58,18 +45,4 @@ function loadGapiAndInit() {
     }
 }
 
-function renderButton() {
-    gapi.signin2.render('signin-button', {
-        // Existing button configuration...
-    });
-}
-
 loadGapiAndInit();
-
-if (window.gapi) {
-    startApp();
-} else {
-    window.onload = function() {
-        startApp();
-    };
-}
