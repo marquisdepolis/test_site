@@ -26,6 +26,11 @@ function renderButton() {
         'onfailure': onFailure
     });
 }
+fetch('/config')
+  .then(response => response.json())
+  .then(config => {
+    // Use config.clientId here to initialize your Google client
+  });
 
 // Ensure the API client is loaded and then call renderButton()
 function startApp() {
