@@ -31,7 +31,7 @@ function loadGapiAndInit() {
     if (window.gapi) {
         gapi.load('auth2', function() {
             gapi.auth2.init({
-                client_id: 'YOUR_CLIENT_ID', // Replace with your actual Client ID
+                client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com', // Replace with your actual Client ID
                 cookiepolicy: 'single_host_origin',
             }).then(renderButton, function(error) {
                 console.error('Error initializing Google Auth:', error);
