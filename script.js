@@ -24,7 +24,7 @@ function onFailure(error) {
 function startApp() {
     gapi.load('auth2', function(){
         auth2 = gapi.auth2.init({
-            client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com.apps.googleusercontent.com', // Directly use your Client ID here
+            client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com', // Directly use your Client ID here
             cookiepolicy: 'single_host_origin',
         });
         renderButton();
