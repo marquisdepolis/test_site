@@ -31,7 +31,7 @@ function renderButton() {
 function startApp() {
     gapi.load('auth2', function(){
         auth2 = gapi.auth2.init({
-            client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Replace with your client ID
+            client_id: 'process.env.CLIENT_ID.apps.googleusercontent.com', // Replace with your client ID
             cookiepolicy: 'single_host_origin',
         });
         renderButton();
