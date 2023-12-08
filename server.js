@@ -26,6 +26,10 @@ app.get('/auth/google', (req, res) => {
   res.redirect(authUrl);
 });
 
+app.get('/config', (req, res) => {
+  res.json({ clientId: process.env.CLIENT_ID });
+});
+
 // Get the authentication response from Google
 app.get('/oauth2callback', (req, res) => {
   const code = req.query.code;
