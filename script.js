@@ -30,9 +30,10 @@ function startApp() {
     gapi.load('auth2', function(){
         auth2 = gapi.auth2.init({
             client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com', // Directly use your Client ID here
-            cookiepolicy: 'single_host_origin',
+            // ... other configurations
+        }).then(renderButton, function(error) {
+            console.error('Error initializing Google Auth:', error);
         });
-        renderButton();
     });
 }
 
