@@ -13,6 +13,22 @@ const oauth2Client = new google.auth.OAuth2(
 // Set the scope you need for Gmail
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 
+const port = process.env.PORT || 3000;
+
+// Endpoint to provide the Google Client ID to the frontend
+app.get('/api/client-id', (req, res) => {
+  res.json({ clientId: process.env.CLIENT_ID });
+});
+
+// Serve static files (e.g., HTML, CSS, JavaScript)
+app.use(express.static('public'));
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+////////////////////////////////////////////////////////////////
+
 app.get('/', (req, res) => {
   res.send('Hello World! - OAuth Test');
 });
