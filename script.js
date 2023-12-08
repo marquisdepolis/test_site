@@ -1,43 +1,34 @@
-function fetchClientId() {
-  fetch('/api/client-id')
-    .then(response => response.json())
-    .then(data => {
-      initializeGoogleSignIn(data.clientId);
-    })
-    .catch(error => console.error('Error fetching client ID:', error));
-}
-
-function initializeGoogleSignIn(clientId) {
-  gapi.load('auth2', function() {
-    gapi.auth2.init({
-      client_id: clientId,
-      cookiepolicy: 'single_host_origin',
-    }).then(() => {
-      renderButton();
-    });
-  });
-}
-
 function renderButton() {
-  gapi.signin2.render('signin-button', {
-    scope: 'email profile https://www.googleapis.com/auth/gmail.readonly',
-    width: 240,
-    height: 50,
-    longtitle: true,
-    theme: 'dark',
-    onsuccess: onSignIn,
-    onfailure: onFailure
-  });
+    gapi.signin2.render('signin-button', {
+        'scope': 'email profile https://www.googleapis.com/auth/gmail.readonly',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+    });
 }
 
 function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('Full Name: ' + profile.getName());
-  console.log('Email: ' + profile.getEmail());
+    var profile = googleUser.getBasicProfile();
+    console.log('Full Name: ' + profile.getName());
+    console.log('Email: ' + profile.getEmail());
 }
 
 function onFailure(error) {
-  console.error('Sign-In Error:', error);
+    console.error('Sign-In Error:', error);
 }
 
-fetchClientId();
+// Ensure the API client is loaded and then call renderButton()
+function startApp() {
+    gapi.load('auth2', function(){
+        auth2 = gapi.auth2.init({
+            client_id: '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com.apps.googleusercontent.com', // Directly use your Client ID here
+            cookiepolicy: 'single_host_origin',
+        });
+        renderButton();
+    });
+}
+
+startApp();
