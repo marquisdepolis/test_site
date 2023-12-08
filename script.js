@@ -1,4 +1,3 @@
-// Function to fetch the Client ID from the server
 function fetchClientId() {
   fetch('/api/client-id')
     .then(response => response.json())
@@ -8,7 +7,6 @@ function fetchClientId() {
     .catch(error => console.error('Error fetching client ID:', error));
 }
 
-// Function to initialize Google Sign-In
 function initializeGoogleSignIn(clientId) {
   gapi.load('auth2', function() {
     gapi.auth2.init({
@@ -20,7 +18,6 @@ function initializeGoogleSignIn(clientId) {
   });
 }
 
-// Function to render the Google Sign-In button
 function renderButton() {
   gapi.signin2.render('signin-button', {
     scope: 'email profile https://www.googleapis.com/auth/gmail.readonly',
@@ -33,17 +30,14 @@ function renderButton() {
   });
 }
 
-// Function to handle successful sign-ins
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('Full Name: ' + profile.getName());
   console.log('Email: ' + profile.getEmail());
 }
 
-// Function to handle sign-in failures
 function onFailure(error) {
   console.error('Sign-In Error:', error);
 }
 
-// Start the app
 fetchClientId();
