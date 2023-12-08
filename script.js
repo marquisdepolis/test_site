@@ -36,6 +36,9 @@ function loadGapiAndInit() {
             }).then(renderButton, function(error) {
                 // Log the full error object to the console
                 console.error('Error initializing Google Auth:', error);
+                // Log the detailed error object
+                if (error.error) {
+                    console.error('Detailed error:', error.error);
             });
         });
     } else if (gapiLoadAttempts < 3) {
