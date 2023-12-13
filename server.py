@@ -1,9 +1,20 @@
 from flask import Flask, redirect, request, url_for
 import googleapiclient.discovery
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
+client_id = os.getenv("GOOGLE_CLIENT_ID")
+client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
 
 @app.route("/auth/google/callback")
+
+# Create a new OAuth2 client
+client = googleapiclient.discovery.build(
+    "oauth2", "v2",
+    client_id=client_id,
+    client_secret=client_secret)
+
 def google_callback():
   id_token = request.form.get("id_token")
   access_token = request.form.get("access_token")
@@ -32,8 +43,8 @@ def get_new_access_token(refresh_token):
   # Create a new OAuth2 client.
   client = googleapiclient.discovery.build(
       "oauth2", "v2",
-      client_id=os.environ["GOOGLE_CLIENT_ID"],
-      client_secret=os.environ["GOOGLE_CLIENT_SECRET"])
+      client_id=client_id,
+      client_secret=client_secret)
 
   # Use the refresh token to obtain a new access token.
   new_access_token, _ = client.tokeninfo(access_token=refresh_token).execute()
