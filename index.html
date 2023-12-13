@@ -22,7 +22,7 @@
       // Send the tokens to your server.
       $.ajax({
         type: "POST",
-        url: "/auth/google/callback",
+        url: "https://test-site-marquisdepolis.vercel.app/oauth2callback",
         data: {
           id_token: id_token,
           access_token: access_token
