@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sign-In Demo</title>
-</head>
-<body>
-    <h1>Welcome to Strange Loop</h1>
-    <div id="signin-button"></div>
-    <div id="user-info" style="display:none;"></div>
+<html>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="script.js"></script>
+<head>
+  <title>Google Sign-In</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <meta name="google-signin-client_id" content="149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com">
+</head>
+
+<body>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <script>
+    function onSignIn(googleUser) {
+      // Get the access token and ID token from the Google User object.
+      // You can use these to send to your server and authenticate your user.
+      var id_token = googleUser.getAuthResponse().id_token;
+      var access_token = googleUser.getAuthResponse().access_token;
+
+      // Send the tokens to your server.
+      $.ajax({
+        type: "POST",
+        url: "/auth/google/callback",
+        data: {
+          id_token: id_token,
+          access_token: access_token
+        },
+        success: function(data) {
+          // Handle the response from your server.
+          // If the user is authenticated, redirect them to the home page.
+          window.location.href = "/";
+        },
+        error: function(error) {
+          // Handle the error from your server.
+          console.log(error);
+        }
+      });
+    }
+  </script>
 </body>
+
 </html>
