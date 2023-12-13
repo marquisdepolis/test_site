@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, url_for
+from flask import Flask, redirect, request, url_for, render_template
 import googleapiclient.discovery
 import os
 from dotenv import load_dotenv
@@ -6,19 +6,6 @@ load_dotenv()
 app = Flask(__name__)
 client_id = os.getenv("GOOGLE_CLIENT_ID")
 client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
-
-from flask import session
-
-@app.before_request
-def before_request():
-    if "user_id" in session:
-        user = User.query.get(session["user_id"])
-        g.user = user
-
-@app.route("/")
-def home():
-    if g.user:
-        return redirect(url_for("welcome"))
 
 @app.route("/auth/google/callback")
 def google_callback():
@@ -39,6 +26,7 @@ def google_callback():
 
     return redirect(url_for("home"))
 
+
 @app.route("/auth/google/store_refresh_token", methods=["POST"])
 def store_refresh_token():
     refresh_token = request.form.get("refresh_token")
@@ -47,12 +35,6 @@ def store_refresh_token():
 
     return jsonify({"success": True})
 
-@app.route("/welcome")
-def welcome():
-    if not g.user:
-        return redirect(url_for("home"))
-
-    return render_template("welcome.html")
 
 def get_new_access_token(refresh_token):
     """Gets a new access token from a refresh token."""
@@ -67,6 +49,17 @@ def get_new_access_token(refresh_token):
     new_access_token, _ = client.tokeninfo(access_token=refresh_token).execute()
 
     return new_access_token
+
+
+@app.route("/")
+def home():
+    # Check if the user is signed in.
+
+    # If the user is signed in, show a welcome back message.
+
+    # If the user is not signed in, show a sign-in button.
+
+    return render_template("home.html")
 
 
 if __name__ == "__main__":
