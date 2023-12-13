@@ -49,11 +49,8 @@ def store_refresh_token():
 
 @app.route("/welcome")
 def welcome():
-    # Check if the user is signed in.
-
-    # If the user is signed in, show the welcome page.
-
-    # If the user is not signed in, redirect them to the home page.
+    if not g.user:
+        return redirect(url_for("home"))
 
     return render_template("welcome.html")
 
