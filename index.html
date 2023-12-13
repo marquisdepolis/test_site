@@ -12,6 +12,8 @@
 <body>
   <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
+  <div id="sign-in-status"></div>
+
   <script>
     function onSignIn(googleUser) {
       // Get the access token and ID token from the Google User object.
@@ -37,8 +39,12 @@
           console.log(error);
         }
       });
+
+      // Show a sign-in acknowledgement message.
+      document.getElementById("sign-in-status").innerHTML = "You have successfully signed in!";
     }
   </script>
 </body>
 
-</html>
+</html><!DOCTYPE html>
+<html>
