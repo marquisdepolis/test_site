@@ -7,6 +7,19 @@ app = Flask(__name__)
 client_id = os.getenv("GOOGLE_CLIENT_ID")
 client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
 
+from flask import session
+
+@app.before_request
+def before_request():
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
+        g.user = user
+
+@app.route("/")
+def home():
+    if g.user:
+        return redirect(url_for("welcome"))
+
 @app.route("/auth/google/callback")
 def google_callback():
     # Create a new OAuth2 client
@@ -26,7 +39,6 @@ def google_callback():
 
     return redirect(url_for("home"))
 
-
 @app.route("/auth/google/store_refresh_token", methods=["POST"])
 def store_refresh_token():
     refresh_token = request.form.get("refresh_token")
@@ -35,6 +47,15 @@ def store_refresh_token():
 
     return jsonify({"success": True})
 
+@app.route("/welcome")
+def welcome():
+    # Check if the user is signed in.
+
+    # If the user is signed in, show the welcome page.
+
+    # If the user is not signed in, redirect them to the home page.
+
+    return render_template("welcome.html")
 
 def get_new_access_token(refresh_token):
     """Gets a new access token from a refresh token."""
