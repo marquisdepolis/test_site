@@ -1,23 +1,30 @@
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
 const { OAuth2Client } = require('google-auth-library');
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const CLIENT_ID = '149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
 
-app.use(express.json()); // Parse incoming JSON requests
+const app = express();
+app.use(bodyParser.json());
 
-app.post('/auth/google/callback', async (req, res) => {
-  const { idToken } = req.body;
-  const ticket = await client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID });
-  const payload = ticket.getPayload();
-  const userId = payload['sub'];
+app.post('/verify-token', async (req, res) => {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: req.body.token,
+            audience: CLIENT_ID
+        });
+        const payload = ticket.getPayload();
 
-  // Use the user ID to create a session or authenticate the user in your system
+        // Create session logic here (can be with JWT or cookies)
 
-  res.send({ success: true });
+        res.json({ loggedIn: true });
+    } catch (error) {
+        res.json({ loggedIn: false });
+    }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

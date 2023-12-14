@@ -1,50 +1,15 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Google Sign-In</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-  <meta name="google-signin-client_id" content="149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Auth Website</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="149913241851-j6himeafqd5snvi98gt8ah7fa0meitqj.apps.googleusercontent.com">
 </head>
-
 <body>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-  <div id="sign-in-status"></div>
-
-  <script>
-    function onSignIn(googleUser) {
-      // Get the access token and ID token from the Google User object.
-      // You can use these to send to your server and authenticate your user.
-      var id_token = googleUser.getAuthResponse().id_token;
-      var access_token = googleUser.getAuthResponse().access_token;
-
-      // Send the tokens to your server.
-      $.ajax({
-        type: "POST",
-        url: "/auth/google/callback",
-        // https://test-site-marquisdepolis.vercel.app/oauth2callback
-        data: {
-          id_token: id_token,
-          access_token: access_token
-        },
-        success: function(data) {
-          // Handle the response from your server.
-          // If the user is authenticated, redirect them to the home page.
-          window.location.href = "/";
-        },
-        error: function(error) {
-          // Handle the error from your server.
-          console.log(error);
-        }
-      });
-
-      // Show a sign-in acknowledgement message.
-      document.getElementById("sign-in-status").innerHTML = "You have successfully signed in!";
-    }
-  </script>
+    <div id="signin-button" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="status-message"></div>
+    <script src="script.js"></script>
 </body>
-
 </html>
