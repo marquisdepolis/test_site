@@ -3,18 +3,17 @@ const bodyParser = require('body-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const cors = require('cors');
+
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const SECRET_KEY = process.env.GOOGLE_CLIENT_SECRET;
 const client = new OAuth2Client(CLIENT_ID);
 
 const app = express();
-const cors = require('cors');
-app.use(cors({
-    origin: 'https://test-site-marquisdepolis.vercel.app' // Adjust if necessary
-}));
-
+app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('test_site')); 
+app.use(express.static(__dirname));
+
 app.post('/verify-token', async (req, res) => {
     console.log("Received token: ", req.body.token); // Debugging line
     try {
