@@ -11,6 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/verify-token', async (req, res) => {
+    console.log("Received token: ", req.body.token); // Debugging line
     try {
         const ticket = await client.verifyIdToken({
             idToken: req.body.token,
@@ -26,6 +27,7 @@ app.post('/verify-token', async (req, res) => {
             res.json({ loggedIn: false });
         }
     } catch (error) {
+        console.error("Error verifying token: ", error); // Debugging line
         res.json({ loggedIn: false });
     }
 });

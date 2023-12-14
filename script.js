@@ -1,6 +1,6 @@
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
-
+    console.log("ID Token: ", id_token); // Debugging line
     fetch('/verify-token', {
         method: 'POST',
         headers: {
@@ -10,6 +10,7 @@ function onSignIn(googleUser) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log("Response from server: ", data); // Debugging line
         if(data.loggedIn) {
             localStorage.setItem('token', data.token); // Store token
             updateUI(true, googleUser);
