@@ -14,7 +14,7 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-app.use(express.static()); 
+app.use(express.static('test_site')); 
 app.post('/verify-token', async (req, res) => {
     console.log("Received token: ", req.body.token); // Debugging line
     try {
