@@ -21,8 +21,17 @@ function onSignIn(googleUser) {
 }
 
 function updateUI(loggedIn, googleUser = null) {
-    let message = loggedIn ? `Welcome, ${googleUser.getBasicProfile().getName()}` : 'Please log in';
-    document.getElementById('status-message').innerText = message;
+    let messageElement = document.getElementById('status-message');
+    let signOutButton = document.getElementById('signout-button');
+    if(loggedIn) {
+        let userName = googleUser.getBasicProfile().getName();
+        messageElement.innerText = `Welcome, ${userName}`;
+        signOutButton.style.display = 'block'; // Show sign-out button
+        window.location.href = '/protected'; // Redirect to the protected path
+    } else {
+        messageElement.innerText = 'Please log in';
+        signOutButton.style.display = 'none'; // Hide sign-out button
+    }
 }
 
 function signOut() {
@@ -30,7 +39,8 @@ function signOut() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
         localStorage.removeItem('token'); // Clear token
-        window.location.href = '/path-after-logout'; // Redirect the user
+        updateUI(false); // Update UI to show login button
+        window.location.href = '/'; // Redirect to the home page
     });
 }
 

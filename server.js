@@ -45,7 +45,8 @@ function authenticateToken(req, res, next) {
 }
 
 app.get('/protected', authenticateToken, (req, res) => {
-    res.json({ message: "You are accessing a protected route", user: req.user });
+  // This page would only be shown to authenticated users
+  res.send('This is a protected page. Welcome!');
 });
 
 const PORT = process.env.PORT || 3000;
