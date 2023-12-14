@@ -11,6 +11,10 @@
       #status-message { margin-top: 20px; }
     </style>
 </head>
+<meta Content-Security-Policy-Report-Only: script-src
+https://accounts.google.com/gsi/client; frame-src
+https://accounts.google.com/gsi/; connect-src
+https://accounts.google.com/gsi/; />
 <body>
     <div id="signin-button" class="g-signin2" data-onsuccess="onSignIn"></div>
     <div id="status-message"></div>
