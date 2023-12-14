@@ -1,3 +1,16 @@
+function updateUI(loggedIn, googleUser = null) {
+    let messageElement = document.getElementById('status-message');
+    let signOutButton = document.getElementById('signout-button');
+    if(loggedIn) {
+        let userName = googleUser.getBasicProfile().getName();
+        messageElement.innerText = `Welcome, ${userName}`;
+        signOutButton.style.display = 'block'; // Show sign-out button
+        window.location.href = 'protected.html'; // Redirect to the protected path
+    } else {
+        messageElement.innerText = 'Please log in';
+        signOutButton.style.display = 'none'; // Hide sign-out button
+    }
+}
 function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser); // Confirm onSignIn is triggered
     var id_token = googleUser.getAuthResponse().id_token;
@@ -37,20 +50,6 @@ function signOut() {
         document.getElementById('status-message').innerText = 'Please log in.';
     });
 }
-
-// function updateUI(loggedIn, googleUser = null) {
-//     let messageElement = document.getElementById('status-message');
-//     let signOutButton = document.getElementById('signout-button');
-//     if(loggedIn) {
-//         let userName = googleUser.getBasicProfile().getName();
-//         messageElement.innerText = `Welcome, ${userName}`;
-//         signOutButton.style.display = 'block'; // Show sign-out button
-//         window.location.href = 'protected.html'; // Redirect to the protected path
-//     } else {
-//         messageElement.innerText = 'Please log in';
-//         signOutButton.style.display = 'none'; // Hide sign-out button
-//     }
-// }
 
 window.onload = function() {
     let token = localStorage.getItem('token');
