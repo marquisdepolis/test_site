@@ -1,8 +1,6 @@
 function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
 
-    // Send the ID token to the backend
     fetch('/verify-token', {
         method: 'POST',
         headers: {
@@ -13,9 +11,24 @@ function onSignIn(googleUser) {
     .then(response => response.json())
     .then(data => {
         if(data.loggedIn) {
-            document.getElementById('status-message').innerText = `Welcome, ${profile.getName()}`;
+            localStorage.setItem('token', data.token); // Store token
+            updateUI(true, googleUser);
         } else {
-            document.getElementById('status-message').innerText = 'Failed to log in';
+            updateUI(false);
         }
     });
+}
+
+function updateUI(loggedIn, googleUser = null) {
+    let message = loggedIn ? `Welcome, ${googleUser.getBasicProfile().getName()}` : 'Please log in';
+    document.getElementById('status-message').innerText = message;
+}
+
+window.onload = function() {
+    let token = localStorage.getItem('token');
+    if(token) {
+        updateUI(true);
+    } else {
+        updateUI(false);
+    }
 }
