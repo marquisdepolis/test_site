@@ -13,7 +13,7 @@ function onSignIn(googleUser) {
         console.log("Response from server: ", data); // Debugging line
         if(data.loggedIn) {
             localStorage.setItem('token', data.token); // Store token
-            updateUI(true, googleUser);
+            window.location.href = '/path-after-login'; // Redirect the user
         } else {
             updateUI(false);
         }
@@ -23,6 +23,15 @@ function onSignIn(googleUser) {
 function updateUI(loggedIn, googleUser = null) {
     let message = loggedIn ? `Welcome, ${googleUser.getBasicProfile().getName()}` : 'Please log in';
     document.getElementById('status-message').innerText = message;
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+        localStorage.removeItem('token'); // Clear token
+        window.location.href = '/path-after-logout'; // Redirect the user
+    });
 }
 
 window.onload = function() {
