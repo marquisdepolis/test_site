@@ -1,9 +1,7 @@
 function onSignIn(googleUser) {
-    console.log('User signed in.'); // For debugging
-    var profile = googleUser.getBasicProfile();
+    console.log('Google Auth Response', googleUser); // Confirm onSignIn is triggered
     var id_token = googleUser.getAuthResponse().id_token;
-    
-    console.log('ID Token: ', id_token); // For debugging
+    console.log('ID Token: ', id_token); // Confirm the token is received
 
     fetch('/verify-token', {
         method: 'POST',
@@ -12,20 +10,21 @@ function onSignIn(googleUser) {
         },
         body: JSON.stringify({ token: id_token })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok.');
+        return response.json();
+    })
     .then(data => {
-        console.log('Response from server: ', data); // For debugging
+        console.log('Server response', data); // Log the server response
         if (data.loggedIn) {
-            console.log('User is logged in'); // For debugging
-            document.getElementById('signin-button').style.display = 'none'; // Hide sign-in button
-            document.getElementById('status-message').innerText = 'Welcome, ' + profile.getName();
+            // Update UI or redirect as needed
+            window.location.href = '/welcome'; // Redirect to a welcome page or update the UI
         } else {
-            console.log('User is not logged in'); // For debugging
             document.getElementById('status-message').innerText = 'Login failed. Please try again.';
         }
     })
     .catch(error => {
-        console.error('Error during fetch: ', error);
+        console.error('Error:', error);
         document.getElementById('status-message').innerText = 'An error occurred. Please try again.';
     });
 }
