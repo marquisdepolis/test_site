@@ -10,14 +10,13 @@ function onSignIn(googleUser) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Response from server: ", data); // Debugging line
         if(data.loggedIn) {
-            localStorage.setItem('token', data.token); // Store token
-            window.location.href = '/path-after-login'; // Redirect the user
+            document.getElementById('signin-button').style.display = 'none'; // Hide sign-in button
+            document.getElementById('status-message').innerText = `Welcome, ${googleUser.getBasicProfile().getName()}`;
         } else {
-            updateUI(false);
+            document.getElementById('status-message').innerText = 'Login failed. Please try again.';
         }
-    });
+    });    
 }
 
 function updateUI(loggedIn, googleUser = null) {
