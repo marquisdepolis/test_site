@@ -18,7 +18,7 @@ function onSignIn(googleUser) {
         console.log('Server response', data); // Log the server response
         if (data.loggedIn) {
             // Update UI or redirect as needed
-            window.location.href = '/welcome'; // Redirect to a welcome page or update the UI
+            window.location.href = 'welcome.html'; // Redirect to a welcome page or update the UI
         } else {
             document.getElementById('status-message').innerText = 'Login failed. Please try again.';
         }
@@ -45,7 +45,7 @@ function updateUI(loggedIn, googleUser = null) {
         let userName = googleUser.getBasicProfile().getName();
         messageElement.innerText = `Welcome, ${userName}`;
         signOutButton.style.display = 'block'; // Show sign-out button
-        window.location.href = '/protected'; // Redirect to the protected path
+        window.location.href = 'protected.html'; // Redirect to the protected path
     } else {
         messageElement.innerText = 'Please log in';
         signOutButton.style.display = 'none'; // Hide sign-out button
