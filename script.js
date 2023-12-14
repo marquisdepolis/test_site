@@ -1,6 +1,7 @@
 function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: ", id_token); // Debugging line
+
     fetch('/verify-token', {
         method: 'POST',
         headers: {
@@ -12,11 +13,16 @@ function onSignIn(googleUser) {
     .then(data => {
         if(data.loggedIn) {
             document.getElementById('signin-button').style.display = 'none'; // Hide sign-in button
-            document.getElementById('status-message').innerText = `Welcome, ${googleUser.getBasicProfile().getName()}`;
+            document.getElementById('status-message').innerText = `Welcome, ${profile.getName()}`;
+            // You can add more UI changes here as needed
         } else {
             document.getElementById('status-message').innerText = 'Login failed. Please try again.';
         }
-    });    
+    })
+    .catch(error => {
+        console.error('Error during fetch: ', error);
+        document.getElementById('status-message').innerText = 'An error occurred. Please try again.';
+    });
 }
 
 function updateUI(loggedIn, googleUser = null) {

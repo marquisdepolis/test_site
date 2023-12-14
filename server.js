@@ -14,26 +14,33 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
-app.post('/verify-token', async (req, res) => {
-    console.log("Received token: ", req.body.token); // Debugging line
-    try {
-        const ticket = await client.verifyIdToken({
-            idToken: req.body.token,
-            audience: CLIENT_ID
-        });
-        const payload = ticket.getPayload();
+const corsOptions = {
+  origin: 'https://test-site-marquisdepolis.vercel.app/', // Replace with your frontend domain
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
-        if (payload) {
-            const user = { userId: payload.sub };
-            const token = jwt.sign(user, SECRET_KEY, { expiresIn: '24h' });
-            res.json({ loggedIn: true, token: token });
-        } else {
-            res.json({ loggedIn: false });
-        }
-    } catch (error) {
-        console.error("Error verifying token: ", error); // Debugging line
-        res.json({ loggedIn: false });
-    }
+app.post('/verify-token', async (req, res) => {
+  console.log("Received token: ", req.body.token); // For debugging
+
+  try {
+      const ticket = await client.verifyIdToken({
+          idToken: req.body.token,
+          audience: process.env.CLIENT_ID
+      });
+      const payload = ticket.getPayload();
+
+      if (payload) {
+          console.log("Token verified successfully"); // For debugging
+          // ...rest of your existing code...
+      } else {
+          console.log("Token verification failed"); // For debugging
+          res.json({ loggedIn: false });
+      }
+  } catch (error) {
+      console.error("Error verifying token: ", error);
+      res.json({ loggedIn: false });
+  }
 });
 
 function authenticateToken(req, res, next) {
