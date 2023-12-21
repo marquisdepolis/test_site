@@ -23,4 +23,11 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     res.send('You reached the callback URI');
 });
 
+router.get('/oauth2callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect to welcome.
+    res.redirect('/welcome.html');
+  });
+
 module.exports = router;
