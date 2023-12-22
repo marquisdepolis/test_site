@@ -23,7 +23,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up routes
-// app.use('/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use(authRoutes); // Note: No prefix here since your auth route is the full path
 
 // Home route
