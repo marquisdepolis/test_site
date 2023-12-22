@@ -13,8 +13,9 @@ const authRoutes = require('./routes/auth-routes');
 // Set up session cookies
 app.use(session({
     secret: 'supercalifragilisticexpialidocious', // Replace with your secret key
-    resave: true, 
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set secure: true if you’re using HTTPS
 }));
 
 // Initialize Passport
